@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "firebase-admin": "^5.0.0"
+  },
+  "name": "medpod_project_1_back_end",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/JNetwerkz/medpod_project_1_back_end.git",
+  "author": "dorkblue <d.dorkblue@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index"
+  }
+}

@@ -1,0 +1,13 @@
+const admin = require('firebase-admin')
+
+const clientAdmin = admin.initializeApp({
+  credential: admin.credential.cert({
+    projectId: 'medpod-project-1',
+    clientEmail: 'firebase-adminsdk-2639c@medpod-project-1.iam.gserviceaccount.com',
+    privateKey: '-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC058PFzsAiNeNY\nLThHkHjjahgjCu4GXbe84yFo8V7MrT6598GVt5omdZDnMnPg5559hvNdrakmpDP1\nKMP+BdoIU2nFTzOBx+1HbKff+yZYGHm8tCvc6uUNxLPCIOw70D5LFdx/F8gOKqCd\nS5eXaCvr9/8uWJSfiGqGQcfmyHATnhkvmuKYKqdhaXswzEcc/Y/2HmHx2Q49ikZX\nhVtushD+0H8Sqz88P77d/+7NjYn6F1AP0Srlb9hvqQTn+6thmpv0kOwGLX7oXQmW\ncV0UbTHb+E4NH26CstttqWRtqyoT0X3/aTZUXT1emJghHrA5o4d0k4XjHnKlNC3G\nmSd8QgiXAgMBAAECggEARWrZ2MGpQHdlMaTIf82UVc+US34aMB8uLjEJ1Pcp5Whl\nNX84rXaylCdw3wahKKA4VPq/0CafTdCcj2qBKqycKa24XJozrY1GI64yDOSWph9e\nN2b7nd4U3t+oCsoPXDRgcveEkNBTV/xLfZBQLy0uDXIwXVxoS39RQQtk5c3sE9pk\nAwlpjC5evTikgcfdXyyi7nHey9p+NWzsKLTQVwG3UPzPxNbccKjbQLCjCt5rpCNJ\nmGlihlbz8A4wKPCvBfrYmWLXy075u9q+oo5frB2o4G1oJLecOkhyaf/rVo/lf0Mk\nd6DwwFr/cpu5yHQJV02E+Iz2836ka/iIWpvfLLpcQQKBgQD4FxTKjDlT16ZjTNCM\nennQ3ib8ffRChLvWxMJVVRVc4B24VDWSTEMZy2MCt4P/iR6g2GtpEPjyejjS5+fF\nrWihNEcr9+kem6KMHAb7oif6GdozYGA0+RIBxWx+e8rKe4MBU/7NZUir2+w/vdcx\nYbir3seX2eN0MkFA1LDCOBZ4iQKBgQC6rFGuxZ81CzbCHJ6dCrwUfZe8IDQDjGQP\n05OTWxukQLKGOnZ6FZkWf/w1DzjpfnXWOmvLXGjy/7fwnVNg5G2bQ0lfKdip+OIg\nA9TrYHZv2QTks1iQC8zHY+NDIA89hZHB54CjeXyRC9Ky0qCHkGLFsq/2AyWodvhr\nWGUj6AHwHwKBgQC7mwCu9oD3hREe8FyYjpmFuCi1MS5ACw3cqCfozZF9DUGMPanR\nOvhXDjWOPWaFG5TcvyviZOJMwt4rpxDerHZ9yQG1HyDbc4fk+eDR8trWRyx5Q30d\nMehLDJcxwr0kh2gW3gTGH7xnscQio5WSkzpKRgqbKzrUiJhNxUjxZeagOQKBgB5h\ncSHKk/CkFJNe6QmR9642Cn3Zl92D+b0BqCDxUPxYczWZSjLwVOvuhHN2OML3i+ID\nvAtqzMHPkHYehLVeN+BvAP/15Yc0NEkVlo+AMYZegYdfEOjQotFIlnIUQ6a1mFVA\nghUY7ocEr5Pe57VocErQnAaj2HskcaW2yy8e0UHtAoGBAOnKS0K+fFk7GEQkm+n3\nMRjvZAm+ysFP5Mk5i9feLZ4++/hFPCEoKexOhgbFCSeiIcUCAyeSuc+oWsxh04zj\nTL50glr58W6zylwqXStu9Ym60cqW0f17q9QvQwpL+P5kKkFu7y/e/yVNBC3QP39Y\nJGtDw4Tq58pcN6+6Vz2lL9q9\n-----END PRIVATE KEY-----\n'
+  })
+})
+
+module.exports = {
+  auth: clientAdmin.auth()
+}
