@@ -1,38 +1,57 @@
+// setup dotenv
+require('dotenv').config()
+
 // express setup
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 8888
+
 // cors setup
 const cors = require('cors')
-const whitelist = []
 const corsOptions = {
   origin: 'http://localhost:3000'
 }
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
+app.use(cors())
 
 // body-parser setup
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+// mongodb setup
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
+const dbURI = 'mongodb://localhost:27017/Medipod_Project_1'
+mongoose.connect(dbURI, {useMongoClient: true}, (err) => {
+  if (err) console.error(err)
+  console.log(`connected to ${dbURI}`)
+})
+// const db = mongoose.connection
+// db.on('error', console.error.bind(console, 'connection error:'))
+// db.once('open', () => console.log('connected to mongodb!'))
+
 // firebase token auth
 const auth = require('./firebase').auth
-app.all('*', (req, res, next) => {
-  console.log('req.headers', req.headers.authorization)
+// app.all('*', (req, res, next) => {
+//   console.log('req.headers', req.headers.authorization)
+//
+//   let reqHeaders = req.headers.authorization ? req.headers.authorization.split(' ') : ''
+//
+//   if (reqHeaders[0] !== 'Bearer' || reqHeaders[0] === '') {
+//     res.json({msg: 'User Not Authorized.'})
+//   } else {
+//     auth.verifyIdToken(reqHeaders[1])
+//     .then((decodedToken) => {
+//       console.log('User Verified', decodedToken)
+//       next()
+//     })
+//     .catch(() => res.json({msg: 'User Not Authorized.'}))
+//   }
+// })
 
-  let reqHeaders = req.headers.authorization ? req.headers.authorization.split(' ') : ''
-
-  if (reqHeaders[0] !== 'Bearer' || reqHeaders[0] === '') {
-    res.json({msg: 'User Not Authorized.'})
-  } else {
-    auth.verifyIdToken(reqHeaders[1])
-    .then((decodedToken) => {
-      console.log('User Verified', decodedToken)
-      next()
-    })
-    .catch(() => res.json({msg: 'User Not Authorized.'}))
-  }
-})
+// routers setup
+app.use('/patient', require('./routers/patientRouter'))
 
 app.listen(port, () => {
   console.log(`app is running at ${port}`)
