@@ -12,7 +12,12 @@ module.exports = {
   },
 
   show: (req, res, next) => {
-
+    console.log(req.params)
+    PatientModel.findById(req.params.id).exec((err, results) => {
+      console.log('responding to index patient req')
+      if (err) console.error(err)
+      res.json(results)
+    })
   },
 
   create: (req, res, next) => {
