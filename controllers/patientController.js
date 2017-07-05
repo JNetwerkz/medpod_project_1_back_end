@@ -1,4 +1,5 @@
 const PatientModel = require('../models/Patient')
+const sequelizeJSON = require('../script/sequelizeJSON')
 
 module.exports = {
   index: (req, res, next) => {
@@ -15,8 +16,7 @@ module.exports = {
   },
 
   create: (req, res, next) => {
-    console.log('create patient req accepted', req.body)
-    const newPatient = new PatientModel(req.body)
+    const newPatient = new PatientModel(sequelizeJSON(req.body))
 
     newPatient.save((err, saved, next) => {
       console.log('responding to create patient req')

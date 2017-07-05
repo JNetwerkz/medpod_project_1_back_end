@@ -11,8 +11,8 @@ const cors = require('cors')
 const corsOptions = {
   origin: 'http://localhost:3000'
 }
-// app.use(cors(corsOptions))
-app.use(cors())
+app.use(cors(corsOptions))
+// app.use(cors())
 
 // body-parser setup
 const bodyParser = require('body-parser')
@@ -33,22 +33,22 @@ mongoose.connect(dbURI, {useMongoClient: true}, (err) => {
 
 // firebase token auth
 const auth = require('./firebase').auth
-// app.all('*', (req, res, next) => {
-//   console.log('req.headers', req.headers.authorization)
-//
-//   let reqHeaders = req.headers.authorization ? req.headers.authorization.split(' ') : ''
-//
-//   if (reqHeaders[0] !== 'Bearer' || reqHeaders[0] === '') {
-//     res.json({msg: 'User Not Authorized.'})
-//   } else {
-//     auth.verifyIdToken(reqHeaders[1])
-//     .then((decodedToken) => {
-//       console.log('User Verified', decodedToken)
-//       next()
-//     })
-//     .catch(() => res.json({msg: 'User Not Authorized.'}))
-//   }
-// })
+app.all('*', (req, res, next) => {
+  console.log('req.headers', req.headers.authorization)
+
+  let reqHeaders = req.headers.authorization ? req.headers.authorization.split(' ') : ''
+
+  if (reqHeaders[0] !== 'Bearer' || reqHeaders[0] === '') {
+    res.json({msg: 'Authorization required.'})
+  } else {
+    auth.verifyIdToken(reqHeaders[1])
+    .then((decodedToken) => {
+      console.log('User Verified', decodedToken)
+      next()
+    })
+    .catch(() => res.json({msg: 'User Not Authorized.'}))
+  }
+})
 
 // routers setup
 app.use('/patient', require('./routers/patientRouter'))
