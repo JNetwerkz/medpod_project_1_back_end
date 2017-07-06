@@ -52,6 +52,7 @@ app.all('*', (req, res, next) => {
 
 // routers setup
 app.use('/patient', require('./routers/patientRouter'))
+app.use('/transaction', require('./routers/transactionRouter'))
 
 app.listen(port, () => {
   console.log(`app is running at ${port}`)
