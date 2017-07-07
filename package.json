@@ -6,6 +6,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "firebase-admin": "^5.0.0",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.1"
   },
   "name": "medpod_project_1_back_end",

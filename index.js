@@ -39,7 +39,7 @@ app.all('*', (req, res, next) => {
   let reqHeaders = req.headers.authorization ? req.headers.authorization.split(' ') : ''
 
   if (reqHeaders[0] !== 'Bearer' || reqHeaders[0] === '') {
-    res.json({msg: 'Authorization required.'})
+    res.json({msg: 'Aucthorization required.'})
   } else {
     auth.verifyIdToken(reqHeaders[1])
     .then((decodedToken) => {
@@ -51,8 +51,8 @@ app.all('*', (req, res, next) => {
 })
 
 // routers setup
-app.use('/patient', require('./routers/patientRouter'))
 app.use('/transaction', require('./routers/transactionRouter'))
+app.use('/patient', require('./routers/patientRouter'))
 
 app.listen(port, () => {
   console.log(`app is running at ${port}`)
