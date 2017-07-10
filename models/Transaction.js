@@ -2,12 +2,13 @@ const mongoose = require('mongoose')
 const moment = require('moment')
 
 const transactionObj = {
-  'patient': {
-    type: String
-  },
   // 'patient': {
-  //   type: mongoose.Schema.Types.ObjectId
+  //   type: String
   // },
+  'patient': {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Patient'
+  },
   'invoice date': {
     type: Date
   },
@@ -60,6 +61,6 @@ transactionSchema.virtual('code').get(function () {
   return 'hello testing'
 })
 
-const TransactionModel = mongoose.model('transaction', transactionSchema)
+const TransactionModel = mongoose.model('Transaction', transactionSchema)
 
 module.exports = TransactionModel

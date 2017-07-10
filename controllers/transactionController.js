@@ -5,7 +5,10 @@ const TransactionModel = require('../models/Transaction')
 module.exports = {
   index: (req, res, next) => {
     console.log('index transaction req accepted')
-    TransactionModel.find().exec((err, results) => {
+    TransactionModel
+    .find()
+    .populate('patient')
+    .exec((err, results) => {
       console.log('responding to req')
       if (err) console.error(err)
       res.json(results)
@@ -13,7 +16,10 @@ module.exports = {
   },
 
   show: (req, res, next) => {
-    TransactionModel.findById(req.params.id).exec((err, results) => {
+    TransactionModel
+    .findById(req.params.id)
+    .populate('patient')
+    .exec((err, results) => {
       console.log('responding to show transaction req')
       if (err) console.error(err)
       res.json(results)
@@ -21,7 +27,9 @@ module.exports = {
   },
 
   create: (req, res, next) => {
+    console.log(req.body)
     const newTransaction = new TransactionModel(sequelizeJSON(req.body))
+    console.log(newTransaction)
 
     newTransaction.save((err, saved, next) => {
       console.log('responding to create transaction req')

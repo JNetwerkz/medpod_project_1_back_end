@@ -22,4 +22,4 @@ const patientSchema = new mongoose.Schema(patientObj)
 
 
 
-module.exports = mongoose.model('patient', patientSchema)
+module.exports = mongoose.model('Patient', patientSchema)

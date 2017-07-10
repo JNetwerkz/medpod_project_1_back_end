@@ -16,7 +16,7 @@ app.use(cors(corsOptions))
 
 // body-parser setup
 const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false, type: 'application/x-www-form-urlencoded'}))
 app.use(bodyParser.json())
 
 // mongodb setup
@@ -53,6 +53,7 @@ app.all('*', (req, res, next) => {
 // routers setup
 app.use('/transaction', require('./routers/transactionRouter'))
 app.use('/patient', require('./routers/patientRouter'))
+app.use('/doctor', require('./routers/doctorRouter'))
 
 app.listen(port, () => {
   console.log(`app is running at ${port}`)
