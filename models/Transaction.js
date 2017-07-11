@@ -15,8 +15,9 @@ const transactionObj = {
   'invoice number': {
     type: String
   },
-  'attending doctor': {
-    type: String
+  'receiving doctor': {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Doctor'
   },
   'transaction amount': {
     type: Number
@@ -55,10 +56,6 @@ transactionSchema.pre('save', function (next) {
     }
     next()
   })
-})
-
-transactionSchema.virtual('code').get(function () {
-  return 'hello testing'
 })
 
 const TransactionModel = mongoose.model('Transaction', transactionSchema)
