@@ -15,7 +15,7 @@ const transactionObj = {
   'invoice number': {
     type: String
   },
-  'receiving doctor': {
+  'receiving_doctor': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor'
   },
@@ -23,6 +23,9 @@ const transactionObj = {
     type: Number
   },
   'transaction month': {
+    type: Number
+  },
+  'transaction year': {
     type: Number
   },
   'entry number': {
@@ -38,9 +41,11 @@ transactionSchema.pre('save', function (next) {
   let
     queryResult,
     transactionMonth = moment(transaction['invoice date']).month() + 1,
+    transactionYear = moment(transaction['invoice date']).year(),
     transactionPatient = transaction['patient']
 
   transaction['transaction month'] = transactionMonth
+  transaction['transaction year'] = transactionYear
 
   TransactionModel
   .find({'patient': transactionPatient, 'transaction month': transactionMonth})
