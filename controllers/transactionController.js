@@ -21,7 +21,7 @@ module.exports = {
 
   index: (req, res, next) => {
     console.log('index transaction req accepted')
-    // TransactionModel
+    TransactionModel
     .find()
     .populate('patient')
     .exec((err, results) => {

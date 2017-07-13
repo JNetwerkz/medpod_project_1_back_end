@@ -54,6 +54,7 @@ app.all('*', (req, res, next) => {
 app.use('/transaction', require('./routers/transactionRouter'))
 app.use('/patient', require('./routers/patientRouter'))
 app.use('/doctor', require('./routers/doctorRouter'))
+app.use('/invoice', require('./routers/invoiceRouter'))
 
 app.listen(port, () => {
   console.log(`app is running at ${port}`)
