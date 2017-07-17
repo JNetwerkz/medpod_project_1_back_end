@@ -8,7 +8,8 @@ const doctorObj = {
     type: String
   },
   'hospital': {
-    type: mongoose.Schema.Types.ObjectId
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Hospital'
   },
   'gender': {
     type: String

@@ -13,7 +13,7 @@ const patientObj = {
   'gender': {
     type: String
   },
-  'referral agent': {
+  'referral_agent': {
     type: mongoose.Schema.Types.ObjectId
   }
 }

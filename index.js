@@ -54,6 +54,8 @@ app.all('*', (req, res, next) => {
 app.use('/transaction', require('./routers/transactionRouter'))
 app.use('/patient', require('./routers/patientRouter'))
 app.use('/doctor', require('./routers/doctorRouter'))
+app.use('/hospital', require('./routers/hospitalRouter'))
+app.use('/addon', require('./routers/addonRouter'))
 app.use('/agent', require('./routers/agentRouter'))
 app.use('/invoice', require('./routers/invoiceRouter'))
 
