@@ -17,7 +17,11 @@ const invoiceObj = {
     addons: {
 
     }
-  }]
+  }],
+  'invoicing_doctor': {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Doctor'
+  }
 }
 
 const invoiceSchema = new mongoose.Schema(invoiceObj)
