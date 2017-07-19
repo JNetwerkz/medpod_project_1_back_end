@@ -1,8 +1,43 @@
 const sequelizeJSON = require('../script/sequelizeJSON')
+const aws = require('aws-sdk')
+const fs = require('fs')
+const path = require('path')
 
 const TransactionModel = require('../models/Transaction')
 
 module.exports = {
+  download: (req, res, next) => {
+    aws.config.update(
+      {
+        accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+        region: 'ap-southeast-1'
+      }
+)
+
+    const s3 = new aws.S3()
+    console.log(s3)
+
+    const options = {
+      Bucket: 'testingbucket-medipod',
+      Key: 'front-end-web-developer-interview-questions.pdf'
+    }
+
+    res.attachment('file')
+    var fileStream = s3.getObject(options).createReadStream()
+    fileStream.pipe(res)
+    // s3.getObject(options, (err, data) => {
+    //   res.attachment('hi')
+    //   var fileStream = data.createReadStream()
+    //   fileStream.pipe(res)
+    // })
+
+    // var file = path.join(__dirname, 'file.pdf')
+
+    // res.download('file.pdf')
+    // var fileStream = s3.getObject(options).createReadStream()
+    // fileStream.pipe(res)
+  },
   search: (req, res, next) => {
     console.log('search transaction req accepted')
     console.log(req)

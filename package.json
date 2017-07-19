@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "aws-sdk": "^2.86.0",
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "cors": "^2.8.3",
