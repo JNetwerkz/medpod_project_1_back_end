@@ -70,6 +70,7 @@ module.exports = {
     TransactionModel
     .findById(req.params.id)
     .populate('patient')
+    .populate('receiving_doctor')
     .exec((err, results) => {
       console.log('responding to show transaction req')
       if (err) console.error(err)

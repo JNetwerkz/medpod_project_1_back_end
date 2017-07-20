@@ -20,6 +20,4 @@ const patientObj = {
 
 const patientSchema = new mongoose.Schema(patientObj)
 
-
-
 module.exports = mongoose.model('Patient', patientSchema)
