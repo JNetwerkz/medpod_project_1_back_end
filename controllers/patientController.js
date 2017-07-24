@@ -38,7 +38,7 @@ module.exports = {
   },
 
   create: (req, res, next) => {
-    const newPatient = new PatientModel(sequelizeJSON(req.body))
+    const newPatient = new PatientModel(req.body)
 
     newPatient.save((err, saved, next) => {
       console.log('responding to create patient req')

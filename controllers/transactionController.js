@@ -80,7 +80,7 @@ module.exports = {
 
   create: (req, res, next) => {
     console.log(req.body)
-    const newTransaction = new TransactionModel(sequelizeJSON(req.body))
+    const newTransaction = new TransactionModel(req.body)
     console.log(newTransaction)
 
     newTransaction.save((err, saved, next) => {
