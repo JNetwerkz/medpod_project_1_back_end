@@ -16,9 +16,16 @@ module.exports = {
   show: (req, res, next) => {
     InvoiceModel
     .findById(req.params.id)
-    .populate('invoicing_doctor')
     .populate({
-      path: 'transactions.transaction'
+      path: 'invoicing_doctor',
+      populate: { path: 'hospital' }
+    })
+    .populate({
+      path: 'transactions.transaction',
+      populate: { path: 'patient' }
+    })
+    .populate({
+      path: 'transactions.addons.item'
     })
     .exec((err, results) => {
       if (err) console.error(err)

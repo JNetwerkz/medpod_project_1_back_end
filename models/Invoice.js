@@ -1,29 +1,39 @@
 const mongoose = require('mongoose')
 
 const invoiceObj = {
-  transactions: [{
-    transaction: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Transaction'
-    },
-    receivable: {
-      percentage: {
-        type: Number
-      },
-      amount: {
-        type: Number
-      }
-    },
-    addons: [{
-      item: {
+  transactions: [
+    {
+      transaction:
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Addon'
+        ref: 'Transaction'
       },
-      amount: {
-        type: Number
-      }
-    }]
-  }],
+      receivable:
+      {
+        percentage:
+        {
+          type: Number
+        },
+        amount:
+        {
+          type: Number
+        }
+      },
+      addons:
+      [
+        {
+          item:
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Addon'
+          },
+          amount: {
+            type: Number
+          }
+        }
+      ]
+    }
+  ],
   'invoicing_doctor': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor'
