@@ -19,13 +19,50 @@ module.exports = {
   },
 
   index: (req, res, next) => {
-    console.log('index agent req accepted')
-    AgentModel.find().exec((err, results) => {
-      console.log('responding to index agent req')
-      if (err) console.error(err)
-      res.json(results)
-    })
+    // console.log('index agent req accepted', req.query)
+    const {
+      search,
+      page
+    } = req.query
+
+    const parsedPage = parseInt(page)
+
+    console.log(typeof page)
+
+    const query = { $regex: search || '', $options: 'i' }
+    const options = {
+      page: parsedPage || 1,
+      limit: 12,
+      sort: {
+        'last name': 1,
+        'first name': 1
+      }
+    }
+
+    AgentModel
+    .paginate(
+      {
+        $or: [
+          { 'first name': query },
+          { 'last name': query }
+        ]
+      }, // query
+      options, // options
+      (err, results) => {
+        if (err) console.error(err)
+        console.log(results)
+        res.json(results)
+      }
+    )
   },
+  // index: (req, res, next) => {
+  //   console.log('index agent req accepted')
+  //   AgentModel.find().exec((err, results) => {
+  //     console.log('responding to index agent req')
+  //     if (err) console.error(err)
+  //     res.json(results)
+  //   })
+  // },
 
   show: (req, res, next) => {
     console.log(req.params)

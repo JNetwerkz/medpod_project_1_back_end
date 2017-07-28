@@ -9,8 +9,13 @@ module.exports = {
   search: (req, res, next) => {
     console.log('search transaction req accepted')
     console.log(req)
+
+    const query = req.query
+
+    // if (!query.receiving_doctor) delete query.receiving_doctor
+
     TransactionModel
-    .find(req.query)
+    .find(query)
     .populate('patient')
     .populate({
       path: 'receiving_doctor'
