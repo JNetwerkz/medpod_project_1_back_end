@@ -7,12 +7,12 @@ module.exports = {
     const query = {$regex: req.query.search, $options: 'i'}
     PatientModel
     .find({
-        $or: [
+      $or: [
           { 'first name': query },
           { 'last name': query },
           { 'ic / passport': query }
-        ]
-      })
+      ]
+    })
     .exec((err, results) => {
       if (err) console.error(err)
       res.json(results)
@@ -20,17 +20,46 @@ module.exports = {
   },
 
   index: (req, res, next) => {
-    console.log('index patient req accepted')
-    PatientModel.find().exec((err, results) => {
-      console.log('responding to index patient req')
-      if (err) console.error(err)
-      res.json(results)
-    })
+    const {
+      search,
+      page
+    } = req.query
+
+    const parsedPage = parseInt(page)
+
+    const query = { $regex: search || '', $options: 'i' }
+    const options = {
+      page: parsedPage || 1,
+      limit: 12,
+      sort: {
+        'last name': 1,
+        'first name': 1
+      }
+    }
+
+    PatientModel
+    .paginate(
+      {
+        $or: [
+          { 'first name': query },
+          { 'last name': query }
+        ]
+      }, // query
+      options, // options
+      (err, results) => {
+        if (err) console.error(err)
+        console.log(results)
+        res.json(results)
+      }
+    )
   },
 
   show: (req, res, next) => {
     console.log(req.params)
-    PatientModel.findById(req.params.id).exec((err, results) => {
+    PatientModel
+    .findById(req.params.id)
+    .populate('referral_agent')
+    .exec((err, results) => {
       console.log('responding to show patient req')
       if (err) console.error(err)
       res.json(results)
@@ -51,7 +80,51 @@ module.exports = {
   },
 
   update: (req, res, next) => {
+    const {
+      params: {id},
+      body
+    } = req
 
+    const {
+      'first name': firstName,
+      'last name': lastName,
+      gender,
+      'ic / passport': icPassport,
+      referral_agent: referralAgent
+    } = body
+
+    console.log(id, body)
+
+    PatientModel.findById(id).exec((err, foundPatient) => {
+      if (err) console.error(err)
+
+      foundPatient['first name'] = firstName
+      foundPatient['last name'] = lastName
+      foundPatient['ic / passport'] = icPassport
+      foundPatient.gender = gender
+      foundPatient.referral_agent = referralAgent
+
+      console.log(foundPatient)
+
+      // foundPatient.save((err, saved, next) => {
+      //   if (err) console.error(err)
+      //   res.json(saved)
+      // })
+
+      const updatePromise = foundPatient.save().then((saved) => {
+        return saved
+      })
+
+      updatePromise.then((savedPatient) => {
+        PatientModel
+        .findById(savedPatient._id)
+        .populate('referral_agent')
+        .exec((err, foundPatient) => {
+          if (err) console.error(err)
+          res.json(foundPatient)
+        })
+      })
+    })
   },
 
   destroy: (req, res, next) => {

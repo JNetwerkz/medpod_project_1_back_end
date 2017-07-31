@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const moment = require('moment')
+const mongoosePaginate = require('mongoose-paginate')
 
 const transactionObj = {
   // 'patient': {
@@ -34,6 +35,8 @@ const transactionObj = {
 }
 
 const transactionSchema = new mongoose.Schema(transactionObj)
+
+transactionSchema.plugin(mongoosePaginate)
 
 transactionSchema.pre('save', function (next) {
   const transaction = this

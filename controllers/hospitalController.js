@@ -7,10 +7,10 @@ module.exports = {
     const query = { $regex: req.query.search, $options: 'i' }
     HospitalModel
     .find({
-        $or: [
+      $or: [
           { 'name': query }
-        ]
-      })
+      ]
+    })
     .exec((err, results) => {
       if (err) console.error(err)
       res.json(results)
@@ -18,12 +18,34 @@ module.exports = {
   },
 
   index: (req, res, next) => {
-    console.log('index hospital req accepted')
-    HospitalModel.find().exec((err, results) => {
-      console.log('responding to index hospital req')
-      if (err) console.error(err)
-      res.json(results)
-    })
+    const {
+      search,
+      page
+    } = req.query
+
+    const parsedPage = parseInt(page)
+
+    const query = { $regex: search || '', $options: 'i' }
+    const options = {
+      page: parsedPage || 1,
+      limit: 12,
+      sort: {
+        name: 1
+      }
+    }
+
+    HospitalModel
+    .paginate(
+      {
+        name: query
+      }, // query
+      options, // options
+      (err, results) => {
+        if (err) console.error(err)
+        console.log(results)
+        res.json(results)
+      }
+    )
   },
 
   show: (req, res, next) => {
@@ -44,6 +66,38 @@ module.exports = {
       } else {
         res.json(saved)
       }
+    })
+  },
+
+  update: (req, res, next) => {
+    const {
+    params: {id},
+    body
+  } = req
+
+    const {
+      name,
+      address
+  } = body
+
+    HospitalModel.findById(id).exec((err, foundHospital) => {
+      if (err) console.error(err)
+
+      foundHospital.name = name
+      foundHospital.address = address
+
+      const updatePromise = foundHospital.save().then((saved) => {
+        return saved
+      })
+
+      updatePromise.then((savedHospital) => {
+        HospitalModel
+        .findById(savedHospital._id)
+        .exec((err, foundHospital) => {
+          if (err) console.error(err)
+          res.json(foundHospital)
+        })
+      })
     })
   }
 }

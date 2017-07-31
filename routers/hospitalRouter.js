@@ -4,6 +4,7 @@ const hospitalController = require('../controllers/hospitalController')
 router
 .get('/search', hospitalController.search)
 .get('/:id', hospitalController.show)
+.put('/:id', hospitalController.update)
 
 router
 .get('/', hospitalController.index)

@@ -2,6 +2,7 @@ const sequelizeJSON = require('../script/sequelizeJSON')
 const aws = require('aws-sdk')
 const fs = require('fs')
 const path = require('path')
+const querystring = require('querystring')
 
 const TransactionModel = require('../models/Transaction')
 
@@ -28,15 +29,37 @@ module.exports = {
   },
 
   index: (req, res, next) => {
-    console.log('index transaction req accepted')
+    console.log(req.query)
+    const {
+      search,
+      page
+    } = req.query
+
+
+    const query = querystring.parse(search)
+    console.log(typeof query)
+
+    const parsedPage = parseInt(page)
+
+    const options = {
+      page: parsedPage || 1,
+      limit: 12,
+      populate: 'patient',
+      sort: {
+        'patient: first name': 1
+      }
+    }
+
     TransactionModel
-    .find()
-    .populate('patient')
-    .exec((err, results) => {
-      console.log('responding to req')
-      if (err) console.error(err)
-      res.json(results)
-    })
+    .paginate(
+      {'transaction month': 7},
+      options, // options
+      (err, results) => {
+        if (err) console.error(err)
+        console.log(results)
+        res.json(results)
+      }
+    )
   },
 
   show: (req, res, next) => {

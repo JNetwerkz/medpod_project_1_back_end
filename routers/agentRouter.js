@@ -4,6 +4,7 @@ const agentController = require('../controllers/agentController')
 router
 .get('/search', agentController.search)
 .get('/:id', agentController.show)
+.put('/:id', agentController.update)
 
 router
 .get('/', agentController.index)

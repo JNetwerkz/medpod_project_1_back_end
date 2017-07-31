@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const hospitalObj = {
   'name': {
@@ -10,5 +11,6 @@ const hospitalObj = {
 }
 
 const hospitalSchema = new mongoose.Schema(hospitalObj)
+hospitalSchema.plugin(mongoosePaginate)
 
 module.exports = mongoose.model('Hospital', hospitalSchema)

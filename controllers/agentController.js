@@ -7,11 +7,11 @@ module.exports = {
     const query = { $regex: req.query.search, $options: 'i' }
     AgentModel
     .find({
-        $or: [
+      $or: [
           { 'first name': query },
           { 'last name': query }
-        ]
-      })
+      ]
+    })
     .exec((err, results) => {
       if (err) console.error(err)
       res.json(results)
@@ -82,6 +82,34 @@ module.exports = {
       } else {
         res.json(saved)
       }
+    })
+  },
+
+  update: (req, res, next) => {
+    const {
+      params: {id},
+      body
+    } = req
+
+    const {
+      'first name': firstName,
+      'last name': lastName,
+      gender
+    } = body
+
+    console.log(id, body)
+
+    AgentModel.findById(id).exec((err, foundAgent) => {
+      if (err) console.error(err)
+
+      foundAgent['first name'] = firstName
+      foundAgent['last name'] = lastName
+      foundAgent.gender = gender
+
+      foundAgent.save((err, saved, next) => {
+        if (err) console.error(err)
+        res.json(saved)
+      })
     })
   }
 }
