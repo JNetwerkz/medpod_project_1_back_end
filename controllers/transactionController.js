@@ -37,7 +37,7 @@ module.exports = {
 
 
     const query = querystring.parse(search)
-    console.log(typeof query)
+    console.log(query)
 
     const parsedPage = parseInt(page)
 
@@ -52,7 +52,7 @@ module.exports = {
 
     TransactionModel
     .paginate(
-      {'transaction month': 7},
+      query,
       options, // options
       (err, results) => {
         if (err) console.error(err)
