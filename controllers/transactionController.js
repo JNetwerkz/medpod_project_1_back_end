@@ -9,7 +9,7 @@ const TransactionModel = require('../models/Transaction')
 module.exports = {
   search: (req, res, next) => {
     console.log('search transaction req accepted')
-    console.log(req)
+    console.log(req.query)
 
     const query = req.query
 
@@ -35,19 +35,31 @@ module.exports = {
       page
     } = req.query
 
-
     const query = querystring.parse(search)
-    console.log(query)
+
+    if (!query.receiving_doctor) delete query.receiving_doctor
+    if (!query['transaction month']) delete query['transaction month']
 
     const parsedPage = parseInt(page)
+
+    console.log('qs query', query)
+    console.log('parsedpage', parsedPage)
 
     const options = {
       page: parsedPage || 1,
       limit: 12,
-      populate: 'patient',
       sort: {
-        'patient: first name': 1
-      }
+        'invoice date': 1
+      },
+      // populate: 'patient receiving_doctor',
+      populate: [
+        {
+          path: 'patient'
+        },
+        {
+          path: 'receiving_doctor'
+        }
+      ]
     }
 
     TransactionModel

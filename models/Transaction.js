@@ -31,6 +31,14 @@ const transactionObj = {
   },
   'entry number': {
     type: Number
+  },
+  status: {
+    type: String,
+    default: 'active'
+  },
+  createAt: {
+    type: Date,
+    default: moment()
   }
 }
 

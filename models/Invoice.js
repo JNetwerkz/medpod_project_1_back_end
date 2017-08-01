@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const moment = require('moment')
+
+const mongoosePaginate = require('mongoose-paginate')
 
 const invoiceObj = {
   transactions: [
@@ -37,10 +40,24 @@ const invoiceObj = {
   'invoicing_doctor': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor'
+  },
+  createdAt: {
+    type: Date,
+    default: moment()
+  },
+  monthCreated: {
+    type: Date,
+    default: moment().month() + 1
+  },
+  yearCreated: {
+    type: Date,
+    default: moment().year()
   }
 }
 
 const invoiceSchema = new mongoose.Schema(invoiceObj)
+
+invoiceSchema.plugin(mongoosePaginate)
 
 // invoiceSchema.pre('save', function (next) {
 //   const invoice = this
