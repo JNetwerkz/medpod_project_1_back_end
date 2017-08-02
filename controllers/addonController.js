@@ -39,6 +39,9 @@ module.exports = {
     const newAddon = new AddonModel(req.body)
 
     newAddon.save((err, saved, next) => {
+      console.log(err)
+      console.log(saved)
+      
       if (err) {
         res.json(err)
       } else {

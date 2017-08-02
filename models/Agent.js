@@ -3,13 +3,20 @@ const mongoosePaginate = require('mongoose-paginate')
 
 const agentObj = {
   'first name': {
-    type: String
+    type: String,
+    required: [true, 'Please specify FIRST NAME for Agent']
   },
   'last name': {
-    type: String
+    type: String,
+    required: [true, 'Please specify LAST NAME for Agent']
   },
   'gender': {
-    type: String
+    type: String,
+    required: [true, 'Please specify GENDER for Agent'],
+    enum: {
+      values: ['male', 'female', 'others'],
+      message: 'Please specify either MALE, FEMALE OR OTHERS for gender'
+    }
   }
 }
 

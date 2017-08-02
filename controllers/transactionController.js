@@ -35,7 +35,7 @@ module.exports = {
       page
     } = req.query
 
-    const query = querystring.parse(search)
+    let query = querystring.parse(search)
 
     if (!query.receiving_doctor) delete query.receiving_doctor
     if (!query['transaction month']) delete query['transaction month']
@@ -54,7 +54,10 @@ module.exports = {
       // populate: 'patient receiving_doctor',
       populate: [
         {
-          path: 'patient'
+          path: 'patient',
+          populate: {
+            path: 'referral_agent'
+          }
         },
         {
           path: 'receiving_doctor'

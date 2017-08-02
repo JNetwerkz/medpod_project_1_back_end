@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 const addonObj = {
   'name': {
-    type: String
+    type: String,
+    required: [true, 'Please specify NAME for Add-on']
   }
 }
 

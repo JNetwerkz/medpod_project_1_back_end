@@ -1,7 +1,60 @@
 const AgentModel = require('../models/Agent')
+const TransactionModel = require('../models/Transaction')
 const sequelizeJSON = require('../script/sequelizeJSON')
+const querystring = require('querystring')
 
 module.exports = {
+  searchTransaction: (req, res, next) => {
+    const {
+      id: agentId
+    } = req.params
+
+    const {
+      search,
+      page
+    } = req.query
+
+    const query = querystring.parse(search)
+
+    if (!query['transaction month']) delete query['transaction month']
+
+    const parsedPage = parseInt(page)
+
+    const options = {
+      page: parsedPage || 1,
+      limit: 12,
+      sort: {
+        'invoice date': 1
+      },
+      // populate: 'patient receiving_doctor',
+      populate: [
+        {
+          path: 'patient',
+          populate: {
+            path: 'referral_agent'
+          }
+        },
+        {
+          path: 'receiving_doctor'
+        }
+      ]
+    }
+
+    TransactionModel
+    .paginate(query, options)
+    .then((results) => {
+      results.docs = results.docs.filter((transaction, index) => {
+        const {
+          patient: {
+            referral_agent: { _id: referralAgentId }
+          }
+        } = transaction
+        if (referralAgentId.toString() === agentId) return transaction
+      })
+      res.json(results)
+    })
+  },
+
   search: (req, res, next) => {
     console.log('search agent req accepted')
     const query = { $regex: req.query.search, $options: 'i' }

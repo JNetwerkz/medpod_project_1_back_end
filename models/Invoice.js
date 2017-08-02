@@ -24,9 +24,7 @@ const invoiceObj = {
       },
       addons:
       [
-        {
-          item:
-          {
+        { item: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Addon'
           },

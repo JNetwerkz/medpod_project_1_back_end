@@ -3,7 +3,8 @@ const mongoosePaginate = require('mongoose-paginate')
 
 const hospitalObj = {
   'name': {
-    type: String
+    type: String,
+    required: [true, 'Please specify name for Hospital']
   },
   'address': {
     type: String
