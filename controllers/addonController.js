@@ -59,10 +59,9 @@ module.exports = {
       return foundAddon.update(req.body)
     })
     .then(() => {
-      return AddonModel.find().sort('name status')
+      return AddonModel.find().sort('status name')
     })
     .then((results) => {
-      console.log(results)
       res.json(results)
     })
     .catch((err) => res.json(err))
