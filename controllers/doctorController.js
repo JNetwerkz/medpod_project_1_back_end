@@ -91,38 +91,59 @@ module.exports = {
       hospital
     } = body
 
-    console.log(id, body)
-
-    DoctorModel.findById(id).exec((err, foundDoctor) => {
-      if (err) console.error(err)
-
+    DoctorModel
+    .findById(id)
+    .then((foundDoctor) => {
+      console.log('foundDoc', foundDoctor)
       foundDoctor['first name'] = firstName
       foundDoctor['last name'] = lastName
       foundDoctor.gender = gender
       foundDoctor.hospital = hospital
 
-      console.log(foundDoctor)
-
-
-      // foundDoctor.save((err, saved, next) => {
-      //   if (err) console.error(err)
-      //   res.json(saved)
-      // })
-
-      const updatePromise = foundDoctor.save().then((saved) => {
-        return saved
-      })
-
-      updatePromise.then((savedDoctor) => {
-        DoctorModel
-        .findById(savedDoctor._id)
-        .populate('hospital')
-        .exec((err, foundDoctor) => {
-          if (err) console.error(err)
-          res.json(foundDoctor)
-        })
-      })
-
+      return foundDoctor.save()
     })
+    .then((savedDoctor) => {
+      console.log('saved', savedDoctor)
+      return DoctorModel
+      .findById(savedDoctor._id)
+      .populate('hospital')
+    })
+    .then((foundDoctor) => {
+      console.log('second found', foundDoctor)
+      res.json(foundDoctor)
+    })
+    .catch((err) => {
+      console.log('err yo')
+      res.json(err)
+    })
+    // DoctorModel.findById(id).exec((err, foundDoctor) => {
+    //   if (err) return res.json(err)
+    //
+    //   foundDoctor['first name'] = firstName
+    //   foundDoctor['last name'] = lastName
+    //   foundDoctor.gender = gender
+    //   foundDoctor.hospital = hospital
+    //
+    //   const updatePromise = foundDoctor.save().then((saved) => {
+    //     return saved
+    //   })
+    //
+    //   updatePromise
+    //   .then((savedDoctor) => {
+    //     DoctorModel
+    //     .findById(savedDoctor._id)
+    //     .populate('hospital')
+    //     .exec((err, foundDoctor) => {
+    //       err
+    //       ? res.json(err)
+    //       : res.json(foundDoctor)
+    //       // if (err) console.error(err)
+    //       // res.json(foundDoctor)
+    //     })
+    //   })
+    //   .catch((err) => {
+    //     return res.json(err)
+    //   })
+    // })
   }
 }

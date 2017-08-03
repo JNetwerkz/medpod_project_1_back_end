@@ -11,6 +11,7 @@ module.exports = {
           { 'name': query }
         ]
       })
+    .sort('name')
     .exec((err, results) => {
       if (err) console.error(err)
       res.json(results)
@@ -19,7 +20,7 @@ module.exports = {
 
   index: (req, res, next) => {
     console.log('index addon req accepted')
-    AddonModel.find().exec((err, results) => {
+    AddonModel.find().sort({ status: 1, name: 1 }).exec((err, results) => {
       console.log('responding to index addon req')
       if (err) console.error(err)
       res.json(results)
@@ -41,12 +42,29 @@ module.exports = {
     newAddon.save((err, saved, next) => {
       console.log(err)
       console.log(saved)
-      
+
       if (err) {
         res.json(err)
       } else {
         res.json(saved)
       }
     })
+  },
+
+  updateStatus: (req, res, next) => {
+    console.log(req)
+    AddonModel
+    .findById(req.params.id)
+    .then((foundAddon) => {
+      return foundAddon.update(req.body)
+    })
+    .then(() => {
+      return AddonModel.find().sort('name status')
+    })
+    .then((results) => {
+      console.log(results)
+      res.json(results)
+    })
+    .catch((err) => res.json(err))
   }
 }

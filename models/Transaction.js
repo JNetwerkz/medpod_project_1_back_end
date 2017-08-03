@@ -3,25 +3,25 @@ const moment = require('moment')
 const mongoosePaginate = require('mongoose-paginate')
 
 const transactionObj = {
-  // 'patient': {
-  //   type: String
-  // },
   'patient': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Patient'
   },
   'invoice date': {
-    type: Date
+    type: Date,
+    required: [true, 'Please indicate INVOICE DATE for Transaction']
   },
   'invoice number': {
-    type: String
+    type: String,
+    required: [true, 'Please indicate INVOICE NUMBER for Transaction']
   },
   'receiving_doctor': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor'
   },
   'transaction amount': {
-    type: Number
+    type: Number,
+    required: [true, 'Please indicate TRANSACTION AMOUNT for Transaction. Indicate 0 if not applicable']
   },
   'transaction month': {
     type: Number

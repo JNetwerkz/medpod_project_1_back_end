@@ -80,24 +80,22 @@ module.exports = {
       address
   } = body
 
-    HospitalModel.findById(id).exec((err, foundHospital) => {
-      if (err) console.error(err)
-
+    HospitalModel
+    .findById(id)
+    .then((foundHospital) => {
       foundHospital.name = name
       foundHospital.address = address
-
-      const updatePromise = foundHospital.save().then((saved) => {
-        return saved
-      })
-
-      updatePromise.then((savedHospital) => {
-        HospitalModel
+      return foundHospital.save()
+    })
+    .then((savedHospital) => {
+      return HospitalModel
         .findById(savedHospital._id)
-        .exec((err, foundHospital) => {
-          if (err) console.error(err)
-          res.json(foundHospital)
-        })
-      })
+    })
+    .then((foundHospital) => {
+      res.json(foundHospital)
+    })
+    .catch((err) => {
+      res.json(err)
     })
   }
 }

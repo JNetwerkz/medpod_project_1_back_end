@@ -84,7 +84,7 @@ module.exports = {
       params: {id},
       body
     } = req
-
+    console.log('body', body)
     const {
       'first name': firstName,
       'last name': lastName,
@@ -93,38 +93,63 @@ module.exports = {
       referral_agent: referralAgent
     } = body
 
-    console.log(id, body)
-
-    PatientModel.findById(id).exec((err, foundPatient) => {
-      if (err) console.error(err)
-
+    PatientModel
+    .findById(id)
+    .then((foundPatient) => {
+      console.log('foundp', foundPatient)
       foundPatient['first name'] = firstName
       foundPatient['last name'] = lastName
       foundPatient['ic / passport'] = icPassport
       foundPatient.gender = gender
       foundPatient.referral_agent = referralAgent
 
-      console.log(foundPatient)
-
-      // foundPatient.save((err, saved, next) => {
-      //   if (err) console.error(err)
-      //   res.json(saved)
-      // })
-
-      const updatePromise = foundPatient.save().then((saved) => {
-        return saved
-      })
-
-      updatePromise.then((savedPatient) => {
-        PatientModel
+      return foundPatient.save()
+    })
+    .then((savedPatient) => {
+      console.log('savedp', savedPatient)
+      return PatientModel
         .findById(savedPatient._id)
         .populate('referral_agent')
-        .exec((err, foundPatient) => {
-          if (err) console.error(err)
-          res.json(foundPatient)
-        })
-      })
     })
+    .then((foundPatient) => {
+      console.log('foundp 2', foundPatient)
+      res.json(foundPatient)
+    })
+    .catch((err) => {
+      console.log('err', err)
+      res.json(err)
+    })
+
+    // PatientModel.findById(id).exec((err, foundPatient) => {
+    //   if (err) console.error(err)
+    //
+    //   foundPatient['first name'] = firstName
+    //   foundPatient['last name'] = lastName
+    //   foundPatient['ic / passport'] = icPassport
+    //   foundPatient.gender = gender
+    //   foundPatient.referral_agent = referralAgent
+    //
+    //   console.log(foundPatient)
+    //
+    //   // foundPatient.save((err, saved, next) => {
+    //   //   if (err) console.error(err)
+    //   //   res.json(saved)
+    //   // })
+    //
+    //   const updatePromise = foundPatient.save().then((saved) => {
+    //     return saved
+    //   })
+    //
+    //   updatePromise.then((savedPatient) => {
+    //     PatientModel
+    //     .findById(savedPatient._id)
+    //     .populate('referral_agent')
+    //     .exec((err, foundPatient) => {
+    //       if (err) console.error(err)
+    //       res.json(foundPatient)
+    //     })
+    //   })
+    // })
   },
 
   destroy: (req, res, next) => {

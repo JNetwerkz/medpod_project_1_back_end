@@ -19,7 +19,8 @@ const invoiceObj = {
         },
         amount:
         {
-          type: Number
+          type: Number,
+          required: [true, 'Please specify AMOUNT / PERCENTAGE for Transaction']
         }
       },
       addons:
@@ -29,7 +30,8 @@ const invoiceObj = {
             ref: 'Addon'
           },
           amount: {
-            type: Number
+            type: Number,
+            required: [true, 'Please specify AMOUNT for the Add-on']
           }
         }
       ]

@@ -130,15 +130,14 @@ module.exports = {
     const newAgent = new AgentModel(req.body)
 
     newAgent.save((err, saved, next) => {
-      if (err) {
-        res.json(err)
-      } else {
-        res.json(saved)
-      }
+      err
+      ? res.json(err)
+      : res.json(saved)
     })
   },
 
   update: (req, res, next) => {
+    console.log(req.body)
     const {
       params: {id},
       body
@@ -150,18 +149,18 @@ module.exports = {
       gender
     } = body
 
-    console.log(id, body)
-
     AgentModel.findById(id).exec((err, foundAgent) => {
-      if (err) console.error(err)
+      if (err) return res.json(err)
 
       foundAgent['first name'] = firstName
       foundAgent['last name'] = lastName
       foundAgent.gender = gender
-
+      console.log(foundAgent)
       foundAgent.save((err, saved, next) => {
-        if (err) console.error(err)
-        res.json(saved)
+        console.log(err)
+        err
+        ? res.json(err)
+        : res.json(saved)
       })
     })
   }

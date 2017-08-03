@@ -96,14 +96,9 @@ module.exports = {
 
     newTransaction.save((err, saved, next) => {
       console.log('responding to create transaction req')
-      if (err) {
-        console.err(err)
-        res.json(err)
-      } else {
-        console.log(saved)
-        console.log(saved.code)
-        res.json(saved)
-      }
+      err
+      ? res.json(err)
+      : res.json(saved)
     })
   }
 }
