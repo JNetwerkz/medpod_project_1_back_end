@@ -35,14 +35,10 @@ const transactionObj = {
   status: {
     type: String,
     default: 'active'
-  },
-  createAt: {
-    type: Date,
-    default: moment()
   }
 }
 
-const transactionSchema = new mongoose.Schema(transactionObj)
+const transactionSchema = new mongoose.Schema(transactionObj, { timestamps: { createdAt: 'createdAt' } })
 
 transactionSchema.plugin(mongoosePaginate)
 

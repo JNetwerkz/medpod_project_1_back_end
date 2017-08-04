@@ -41,10 +41,6 @@ const invoiceObj = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Doctor'
   },
-  createdAt: {
-    type: Date,
-    default: moment()
-  },
   monthCreated: {
     type: Date,
     default: moment().month() + 1
@@ -55,7 +51,7 @@ const invoiceObj = {
   }
 }
 
-const invoiceSchema = new mongoose.Schema(invoiceObj)
+const invoiceSchema = new mongoose.Schema(invoiceObj, { timestamps: { createdAt: 'createdAt' } })
 
 invoiceSchema.plugin(mongoosePaginate)
 

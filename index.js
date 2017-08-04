@@ -23,7 +23,7 @@ app.use(bodyParser.json())
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 // const dbURI = 'mongodb://localhost:27017/Medipod_Project_1'
-const dbURI = process.env.MLAB_MONGODB_URI
+ const dbURI = process.env.MLAB_MONGODB_URI
 mongoose.connect(dbURI, {useMongoClient: true}, (err) => {
   if (err) console.error(err)
   console.log(`connected!`)

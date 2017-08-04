@@ -8,7 +8,8 @@ const fileObj = {
     type: String
   },
   fileType: {
-    type: String
+    type: String,
+    uppercase: true
   },
   patient: {
     type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +25,7 @@ const fileObj = {
   }
 }
 
-const fileSchema = new mongoose.Schema(fileObj)
+const fileSchema = new mongoose.Schema(fileObj, { timestamps: { createdAt: 'createdAt' } })
 
 // fileSchema.pre('save', function (next) {
 //   const invoice = this
