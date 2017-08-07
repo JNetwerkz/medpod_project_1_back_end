@@ -60,6 +60,7 @@ app.use('/addon', require('./routers/addonRouter'))
 app.use('/agent', require('./routers/agentRouter'))
 app.use('/invoice', require('./routers/invoiceRouter'))
 app.use('/file', require('./routers/fileRouter'))
+app.use('/user', require('./routers/userRouter'))
 
 app.listen(port, () => {
   console.log(`app is running at ${port}`)

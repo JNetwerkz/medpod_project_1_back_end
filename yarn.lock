@@ -243,9 +243,9 @@ finalhandler@~1.0.3:
     statuses "~1.3.1"
     unpipe "~1.0.0"
 
-firebase-admin@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-5.0.0.tgz#fadae56c99be4fb56c781007d6719d153fe8fd7b"
+firebase-admin@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-5.1.0.tgz#48c8a67844d2319a2a49582bcd3c35534ab4f178"
   dependencies:
     "@types/jsonwebtoken" "^7.1.33"
     faye-websocket "0.9.3"

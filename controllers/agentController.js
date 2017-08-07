@@ -15,7 +15,6 @@ module.exports = {
     } = req.query
 
     const query = querystring.parse(search)
-
     if (!query['transaction month']) delete query['transaction month']
 
     const parsedPage = parseInt(page)
@@ -27,8 +26,7 @@ module.exports = {
         'invoice date': 1
       },
       // populate: 'patient receiving_doctor',
-      populate: [
-        {
+      populate: [{
           path: 'patient',
           populate: {
             path: 'referral_agent'
@@ -41,34 +39,42 @@ module.exports = {
     }
 
     TransactionModel
-    .paginate(query, options)
-    .then((results) => {
-      results.docs = results.docs.filter((transaction, index) => {
-        const {
-          patient: {
-            referral_agent: { _id: referralAgentId }
-          }
-        } = transaction
-        if (referralAgentId.toString() === agentId) return transaction
+      .paginate(query, options)
+      .then((results) => {
+        results.docs = results.docs.filter((transaction, index) => {
+          const {
+            patient: {
+              referral_agent: {
+                _id: referralAgentId
+              }
+            }
+          } = transaction
+          if (referralAgentId.toString() === agentId) return transaction
+        })
+        res.json(results)
       })
-      res.json(results)
-    })
   },
 
   search: (req, res, next) => {
     console.log('search agent req accepted')
-    const query = { $regex: req.query.search, $options: 'i' }
+    const query = {
+      $regex: req.query.search,
+      $options: 'i'
+    }
     AgentModel
-    .find({
-      $or: [
-          { 'first name': query },
-          { 'last name': query }
-      ]
-    })
-    .exec((err, results) => {
-      if (err) console.error(err)
-      res.json(results)
-    })
+      .find({
+        $or: [{
+            'first name': query
+          },
+          {
+            'last name': query
+          }
+        ]
+      })
+      .exec((err, results) => {
+        if (err) console.error(err)
+        res.json(results)
+      })
   },
 
   index: (req, res, next) => {
@@ -80,9 +86,10 @@ module.exports = {
 
     const parsedPage = parseInt(page)
 
-    console.log(typeof page)
-
-    const query = { $regex: search || '', $options: 'i' }
+    const query = {
+      $regex: search || '',
+      $options: 'i'
+    }
     const options = {
       page: parsedPage || 1,
       limit: 12,
@@ -93,20 +100,22 @@ module.exports = {
     }
 
     AgentModel
-    .paginate(
-      {
-        $or: [
-          { 'first name': query },
-          { 'last name': query }
-        ]
-      }, // query
-      options, // options
-      (err, results) => {
-        if (err) console.error(err)
-        console.log(results)
-        res.json(results)
-      }
-    )
+      .paginate({
+          $or: [{
+              'first name': query
+            },
+            {
+              'last name': query
+            }
+          ]
+        }, // query
+        options, // options
+        (err, results) => {
+          if (err) console.error(err)
+          console.log(results)
+          res.json(results)
+        }
+      )
   },
   // index: (req, res, next) => {
   //   console.log('index agent req accepted')
@@ -131,15 +140,18 @@ module.exports = {
 
     newAgent.save((err, saved, next) => {
       err
-      ? res.json(err)
-      : res.json(saved)
+        ?
+        res.json(err) :
+        res.json(saved)
     })
   },
 
   update: (req, res, next) => {
     console.log(req.body)
     const {
-      params: {id},
+      params: {
+        id
+      },
       body
     } = req
 
@@ -159,8 +171,9 @@ module.exports = {
       foundAgent.save((err, saved, next) => {
         console.log(err)
         err
-        ? res.json(err)
-        : res.json(saved)
+          ?
+          res.json(err) :
+          res.json(saved)
       })
     })
   }
