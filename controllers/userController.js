@@ -21,9 +21,31 @@ module.exports = {
   },
 
   create: (req, res, next) => {
+    console.log(req.body)
+    const {
+      email,
+      password,
+      displayName,
+      userType
+    } = req.body
 
+    adminAuth.createUser({
+      email, password, displayName
+    })
+    .then((createdUser) => {
+      res.json(createdUser)
+    })
+    .catch((err) => {
+      res.json({ errors: err })
+    })
   },
-  destroy: (req, res, next) => {
 
+  destroy: (req, res, next) => {
+    const { id } = req.params
+    adminAuth.deleteUser(id)
+    .then(() => {
+      res.json()
+    })
+    .catch((err) => console.error('Error deleting user', err))
   }
 }
