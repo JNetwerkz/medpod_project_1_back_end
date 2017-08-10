@@ -74,16 +74,13 @@ module.exports = {
   },
 
   create: (req, res, next) => {
-    console.log(req.body)
-
     const newInvoice = new InvoiceModel(req.body)
 
     newInvoice.save((err, saved) => {
-      if (err) {
-        res.json(err)
-      } else {
-        res.json(saved)
-      }
+      console.log('invoice create error', err)
+      err
+      ? res.json(err)
+      : res.json(saved)
     })
   }
 }
