@@ -12,6 +12,7 @@ const patientObj = {
   },
   'ic / passport': {
     type: String,
+    unique: [true, 'Patient with IC / Passport already exist'],
     required: [true, 'Please specify IC / PASSPORT for Patient']
   },
   'gender': {
@@ -25,6 +26,9 @@ const patientObj = {
   'referral_agent': {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Agent'
+  },
+  personalPhoneNumber: {
+    type: String
   }
 }
 

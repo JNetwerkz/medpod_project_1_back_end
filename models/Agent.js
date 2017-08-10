@@ -17,6 +17,14 @@ const agentObj = {
       values: ['male', 'female', 'others'],
       message: 'Please specify either MALE, FEMALE OR OTHERS for gender'
     }
+  },
+  personalPhoneNumber: {
+    type: String
+  },
+  'ic / passport': {
+    type: String,
+    unique: [true, 'Agent with IC / Passport already exist'],
+    required: [true, 'Please specify IC / PASSPORT for Agent']
   }
 }
 

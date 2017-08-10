@@ -67,6 +67,7 @@ module.exports = {
   },
 
   create: (req, res, next) => {
+    console.log(req.body)
     const newDoctor = new DoctorModel(req.body)
 
     newDoctor.save((err, saved, next) => {
