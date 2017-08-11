@@ -21,6 +21,9 @@ const agentObj = {
   personalPhoneNumber: {
     type: String
   },
+  personalEmail: {
+    type: String
+  },
   'ic / passport': {
     type: String,
     unique: [true, 'Agent with IC / Passport already exist'],

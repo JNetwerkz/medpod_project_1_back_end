@@ -89,7 +89,14 @@ module.exports = {
       'first name': firstName,
       'last name': lastName,
       gender,
-      hospital
+      hospital,
+      associationName,
+      associationAddress_street,
+      associationAddress_unit,
+      associationAddress_postalcode,
+      associationAddress_country,
+      associationPhoneNumber,
+      associationEmail
     } = body
 
     DoctorModel
@@ -100,6 +107,13 @@ module.exports = {
       foundDoctor['last name'] = lastName
       foundDoctor.gender = gender
       foundDoctor.hospital = hospital
+      foundDoctor.associationName = associationName
+      foundDoctor.associationAddress_street = associationAddress_street
+      foundDoctor.associationAddress_unit = associationAddress_unit
+      foundDoctor.associationAddress_postalcode = associationAddress_postalcode
+      foundDoctor.associationAddress_country = associationAddress_country
+      foundDoctor.associationPhoneNumber = associationPhoneNumber
+      foundDoctor.associationEmail = associationEmail
 
       return foundDoctor.save()
     })

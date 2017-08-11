@@ -140,9 +140,8 @@ module.exports = {
 
     newAgent.save((err, saved, next) => {
       err
-        ?
-        res.json(err) :
-        res.json(saved)
+        ? res.json(err)
+        : res.json(saved)
     })
   },
 
@@ -158,7 +157,10 @@ module.exports = {
     const {
       'first name': firstName,
       'last name': lastName,
-      gender
+      gender,
+      'ic / passport': icPassport,
+      personalEmail,
+      personalPhoneNumber
     } = body
 
     AgentModel.findById(id).exec((err, foundAgent) => {
@@ -167,13 +169,14 @@ module.exports = {
       foundAgent['first name'] = firstName
       foundAgent['last name'] = lastName
       foundAgent.gender = gender
-      console.log(foundAgent)
+      foundAgent['ic / passport'] = icPassport
+      foundAgent.personalEmail = personalEmail
+      foundAgent.personalPhoneNumber = personalPhoneNumber
+
       foundAgent.save((err, saved, next) => {
-        console.log(err)
         err
-          ?
-          res.json(err) :
-          res.json(saved)
+          ? res.json(err)
+          : res.json(saved)
       })
     })
   }

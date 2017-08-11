@@ -29,6 +29,9 @@ const patientObj = {
   },
   personalPhoneNumber: {
     type: String
+  },
+  personalEmail: {
+    type: String
   }
 }
 

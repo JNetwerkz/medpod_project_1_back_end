@@ -77,20 +77,33 @@ module.exports = {
 
     const {
       name,
-      address
+      nameAbbreviation,
+      associationAddress_street,
+      associationAddress_unit,
+      associationAddress_postalcode,
+      associationAddress_country,
+      associationPhoneNumber,
+      associationEmail
   } = body
 
     HospitalModel
     .findById(id)
     .then((foundHospital) => {
       foundHospital.name = name
-      foundHospital.address = address
+      foundHospital.nameAbbreviation = nameAbbreviation
+      foundHospital.associationAddress_street = associationAddress_street
+      foundHospital.associationAddress_unit = associationAddress_unit
+      foundHospital.associationAddress_postalcode = associationAddress_postalcode
+      foundHospital.associationAddress_country = associationAddress_country
+      foundHospital.associationPhoneNumber = associationPhoneNumber
+      foundHospital.associationEmail = associationEmail
+
       return foundHospital.save()
     })
-    .then((savedHospital) => {
-      return HospitalModel
-        .findById(savedHospital._id)
-    })
+    // .then((savedHospital) => {
+    //   return HospitalModel
+    //     .findById(savedHospital._id)
+    // })
     .then((foundHospital) => {
       res.json(foundHospital)
     })

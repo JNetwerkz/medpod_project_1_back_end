@@ -84,13 +84,15 @@ module.exports = {
       params: {id},
       body
     } = req
-    console.log('body', body)
+
     const {
       'first name': firstName,
       'last name': lastName,
       gender,
       'ic / passport': icPassport,
-      referral_agent: referralAgent
+      referral_agent: referralAgent,
+      personalPhoneNumber,
+      personalEmail
     } = body
 
     PatientModel
@@ -102,6 +104,8 @@ module.exports = {
       foundPatient['ic / passport'] = icPassport
       foundPatient.gender = gender
       foundPatient.referral_agent = referralAgent
+      foundPatient.personalPhoneNumber = personalPhoneNumber
+      foundPatient.personalEmail = personalEmail
 
       return foundPatient.save()
     })
