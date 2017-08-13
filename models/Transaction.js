@@ -35,6 +35,9 @@ const transactionObj = {
   status: {
     type: String,
     default: 'active'
+  },
+  additionalInfo: {
+    type: String
   }
 }
 

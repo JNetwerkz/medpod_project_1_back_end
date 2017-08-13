@@ -96,7 +96,8 @@ module.exports = {
       associationAddress_postalcode,
       associationAddress_country,
       associationPhoneNumber,
-      associationEmail
+      associationEmail,
+      additionalInfo
     } = body
 
     DoctorModel
@@ -114,6 +115,7 @@ module.exports = {
       foundDoctor.associationAddress_country = associationAddress_country
       foundDoctor.associationPhoneNumber = associationPhoneNumber
       foundDoctor.associationEmail = associationEmail
+      foundDoctor.additionalInfo = additionalInfo
 
       return foundDoctor.save()
     })

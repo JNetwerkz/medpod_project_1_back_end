@@ -32,6 +32,9 @@ const patientObj = {
   },
   personalEmail: {
     type: String
+  },
+  additionalInfo: {
+    type: String
   }
 }
 

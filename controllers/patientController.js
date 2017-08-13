@@ -92,7 +92,8 @@ module.exports = {
       'ic / passport': icPassport,
       referral_agent: referralAgent,
       personalPhoneNumber,
-      personalEmail
+      personalEmail,
+      additionalInfo
     } = body
 
     PatientModel
@@ -106,6 +107,7 @@ module.exports = {
       foundPatient.referral_agent = referralAgent
       foundPatient.personalPhoneNumber = personalPhoneNumber
       foundPatient.personalEmail = personalEmail
+      foundPatient.additionalInfo = additionalInfo
 
       return foundPatient.save()
     })

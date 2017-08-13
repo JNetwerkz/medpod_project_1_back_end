@@ -47,6 +47,9 @@ const doctorObj = {
   },
   associationEmail: {
     type: String
+  },
+  additionalInfo: {
+    type: String
   }
 }
 

@@ -3,6 +3,29 @@ const moment = require('moment')
 
 const mongoosePaginate = require('mongoose-paginate')
 
+const statusModel = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Please select STATUS from provided list'],
+    enum: {
+      values: [
+        'Interim Bill',
+        'Final Tax Invoice (FIT)',
+        'Bill Collection (BillC)',
+        'Distributor Fee (DF)',
+        'Query Bill / Email Bill (QB / EB)',
+        'Proforma (PF)',
+        'Invoiced (INV)',
+        'Paid and Archive' ],
+      message: 'Please select STATUS from provided list'
+    }
+  },
+  // updatedAt: {
+  //   type: Date,
+  //   // required: [true, 'Please indicate date for STATUS']
+  // }
+}, { timestamps: { createdAt: 'createdAt' } })
+
 const invoiceObj = {
   transactions: [
     {
@@ -26,9 +49,9 @@ const invoiceObj = {
       addons:
       [
         { item: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Addon'
-          },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Addon'
+        },
           amount: {
             type: Number,
             required: [true, 'Please specify AMOUNT for the Add-on']
@@ -42,18 +65,25 @@ const invoiceObj = {
     ref: 'Doctor'
   },
   monthCreated: {
-    type: Date,
+    type: Number,
     default: moment().month() + 1
   },
   yearCreated: {
-    type: Date,
+    type: Number,
     default: moment().year()
-  }
+  },
+  statuses: [statusModel]
 }
 
 const invoiceSchema = new mongoose.Schema(invoiceObj, { timestamps: { createdAt: 'createdAt' } })
 
 invoiceSchema.plugin(mongoosePaginate)
+
+// invoiceSchema.pre('save', function (next) {
+//   const _this = this
+//   console.log('HEY IM PRE SAVE BITCH', _this)
+//   next()
+// })
 
 // invoiceSchema.pre('save', function (next) {
 //   const invoice = this

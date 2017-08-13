@@ -13,7 +13,8 @@ module.exports = {
 
     if (!query.invoicing_doctor) delete query.invoicing_doctor
     if (!query.monthCreated) delete query.monthCreated
-
+    if (!query.yearCreated) delete query.yearCreated
+    console.log(query)
     const parsedPage = parseInt(page)
 
     const options = {
@@ -82,5 +83,25 @@ module.exports = {
       ? res.json(err)
       : res.json(saved)
     })
+  },
+
+  updateInvoiceStatus: (req, res, next) => {
+    console.log(req.body)
+    const { id } = req.params
+    const {
+      name
+    } = req.body
+
+    InvoiceModel
+    .findById(id)
+    .then((foundInvoice) => {
+      console.log('invoice to update', foundInvoice)
+      foundInvoice.statuses.push({ name })
+      return foundInvoice.save()
+    })
+    .then((savedInvoice) => {
+      res.json(savedInvoice)
+    })
+    .catch((err) => res.json(err))
   }
 }

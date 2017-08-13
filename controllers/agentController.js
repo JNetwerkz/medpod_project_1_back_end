@@ -160,7 +160,8 @@ module.exports = {
       gender,
       'ic / passport': icPassport,
       personalEmail,
-      personalPhoneNumber
+      personalPhoneNumber,
+      additionalInfo
     } = body
 
     AgentModel.findById(id).exec((err, foundAgent) => {
@@ -172,6 +173,7 @@ module.exports = {
       foundAgent['ic / passport'] = icPassport
       foundAgent.personalEmail = personalEmail
       foundAgent.personalPhoneNumber = personalPhoneNumber
+      foundAgent.additionalInfo = additionalInfo
 
       foundAgent.save((err, saved, next) => {
         err

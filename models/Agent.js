@@ -28,6 +28,9 @@ const agentObj = {
     type: String,
     unique: [true, 'Agent with IC / Passport already exist'],
     required: [true, 'Please specify IC / PASSPORT for Agent']
+  },
+  additionalInfo: {
+    type: String
   }
 }
 
