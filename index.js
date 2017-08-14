@@ -13,7 +13,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 // app.use(cors())
-
+app.use(express.static('public'))
 // body-parser setup
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false, type: 'application/x-www-form-urlencoded'}))
