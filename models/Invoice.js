@@ -19,7 +19,7 @@ const statusModel = new mongoose.Schema({
         'Paid and Archive' ],
       message: 'Please select STATUS from provided list'
     }
-  },
+  }
   // updatedAt: {
   //   type: Date,
   //   // required: [true, 'Please indicate date for STATUS']
