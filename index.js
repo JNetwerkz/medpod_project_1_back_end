@@ -52,6 +52,9 @@ app.all('*', (req, res, next) => {
 })
 
 // routers setup
+app.get('/', (req, res) => {
+  res.send('hello')
+})
 app.use('/transaction', require('./routers/transactionRouter'))
 app.use('/patient', require('./routers/patientRouter'))
 app.use('/doctor', require('./routers/doctorRouter'))
