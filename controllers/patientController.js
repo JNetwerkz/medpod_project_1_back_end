@@ -93,7 +93,8 @@ module.exports = {
       referral_agent: referralAgent,
       personalPhoneNumber,
       personalEmail,
-      additionalInfo
+      additionalInfo,
+      dob
     } = body
 
     PatientModel
@@ -108,6 +109,7 @@ module.exports = {
       foundPatient.personalPhoneNumber = personalPhoneNumber
       foundPatient.personalEmail = personalEmail
       foundPatient.additionalInfo = additionalInfo
+      foundPatient.dob = dob
 
       return foundPatient.save()
     })

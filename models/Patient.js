@@ -10,6 +10,9 @@ const patientObj = {
     type: String,
     required: [true, 'Please specify LAST NAME for Patient']
   },
+  dob: {
+    type: Date
+  },
   'ic / passport': {
     type: String,
     unique: [true, 'Patient with IC / Passport already exist'],
