@@ -10,9 +10,10 @@ const port = process.env.PORT || 8888
 const cors = require('cors')
 const corsOptions = {
   // origin: 'http://localhost:3000'
-  origin: ['http://localhost:3000', 'https://medipod-project1-cms-react.herokuapp.com']
-
+  // origin: ['http://localhost:3000', 'https://medipod-project1-cms-react.herokuapp.com', process.env.FRONTEND_REACT_URL || 'null']
+  origin: !process.env.NODE_ENV || process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.FRONTEND_DOMAIN_URL || process.env.FRONTEND_HEROKU_URL
 }
+
 app.use(cors(corsOptions))
 // app.use(cors())
 app.use(express.static('public'))
