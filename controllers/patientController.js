@@ -13,6 +13,7 @@ module.exports = {
           { 'ic / passport': query }
       ]
     })
+    .populate('referral_agent')
     .exec((err, results) => {
       if (err) console.error(err)
       res.json(results)
