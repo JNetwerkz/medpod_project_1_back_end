@@ -16,7 +16,9 @@ const statusModel = new mongoose.Schema({
         'Query Bill / Email Bill (QB / EB)',
         'Proforma (PF)',
         'Invoiced (INV)',
-        'Paid and Archive' ],
+        'Paid and Archive',
+        'VOID'
+      ],
       message: 'Please select STATUS from provided list'
     }
   }

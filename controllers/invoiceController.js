@@ -1,4 +1,6 @@
 const InvoiceModel = require('../models/Invoice')
+const CommissionModel = require('../models/Commission').Model
+
 const querystring = require('querystring')
 
 module.exports = {
@@ -77,12 +79,40 @@ module.exports = {
   create: (req, res, next) => {
     const newInvoice = new InvoiceModel(req.body)
 
-    newInvoice.save((err, saved) => {
-      console.log('invoice create error', err)
-      err
-      ? res.json(err)
-      : res.json(saved)
+    newInvoice.save()
+    .then((savedInvoice) => {
+      console.log('savedInvoice', savedInvoice)
+      const commsPromise = savedInvoice.transactions.map((item) => {
+        const { transaction: transactionId, receivable: { amount: invoiceAmount } } = item
+        const { monthCreated: invoiceMonth, yearCreated: invoiceYear, _id: invoiceId } = savedInvoice
+        return CommissionModel.findOneAndUpdate(transactionId, {
+          invoiceAmount,
+          invoiceMonth,
+          invoiceYear,
+          invoiceId
+        })
+      })
+
+      return Promise.all(commsPromise)
+      .then(() => {
+        return savedInvoice
+      })
     })
+    .then((savedInvoice) => {
+      console.log('savedInvoice', savedInvoice)
+      res.json(savedInvoice)
+    })
+    .catch((err) => {
+      console.log('errors', err)
+      res.json(err)
+    })
+
+    // newInvoice.save((err, saved) => {
+    //   console.log('invoice create error', err)
+    //   err
+    //   ? res.json(err)
+    //   : res.json(saved)
+    // })
   },
 
   updateInvoiceStatus: (req, res, next) => {

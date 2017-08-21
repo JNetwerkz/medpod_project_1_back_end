@@ -28,6 +28,7 @@ module.exports = {
     let query = querystring.parse(search)
 
     if (!query.invoiceMonth) delete query.invoiceMonth
+    if (!query.agentId) delete query.agentId
 
     const parsedPage = parseInt(page)
 
@@ -37,19 +38,22 @@ module.exports = {
     const options = {
       page: parsedPage || 1,
       limit: 12,
-      sort: {
-        invoiceMonth: 1
-      },
+      // sort: {
+      //   invoiceMonth: 1
+      // },
     // populate: 'patient receiving_doctor',
       populate: [
         {
           path: 'transactionId',
           populate: {
-            path: 'patient'
+            path: 'patient receiving_doctor'
           }
         },
         {
           path: 'referralAgentId'
+        },
+        {
+          path: 'invoiceId'
         }
       ]
     }
@@ -57,22 +61,13 @@ module.exports = {
     CommissionModel
     .paginate(
       query,
-      options, // options
+      options,
       (err, results) => {
         if (err) console.error(err)
         console.log(results)
         res.json(results)
       }
     )
-  },
-
-  index: (req, res, next) => {
-    console.log('index addon req accepted')
-    AddonModel.find().sort({ status: 1, name: 1 }).exec((err, results) => {
-      console.log('responding to index addon req')
-      if (err) console.error(err)
-      res.json(results)
-    })
   },
 
   show: (req, res, next) => {
@@ -95,18 +90,31 @@ module.exports = {
     })
   },
 
-  updateStatus: (req, res, next) => {
-    console.log(req)
-    AddonModel
-    .findById(req.params.id)
-    .then((foundAddon) => {
-      return foundAddon.update(req.body)
+  update: (req, res, next) => {
+    console.log(req.body, req.params.id)
+    CommissionModel
+    .findByIdAndUpdate(req.params.id, req.body, { new: true })
+    // .populate({
+    //   path: 'transactionId',
+    //   populate: {
+    //     path: 'patient receiving_doctor'
+    //   }
+    // })
+    // .populate('referralAgentId')
+    // .populate('invoiceId')
+    .then((foundCommission) => {
+      const opts = [
+        { path: 'transactionId',
+          populate: { path: 'patient receiving_doctor' }
+        },
+        { path: 'referralAgentId' },
+        { path: 'invoiceId' }
+      ]
+      return CommissionModel.populate(foundCommission, opts)
     })
-    .then(() => {
-      return AddonModel.find().sort('status name')
-    })
-    .then((results) => {
-      res.json(results)
+    .then((populatedCommission) => {
+      console.log('populatedCommission', populatedCommission)
+      res.json(populatedCommission)
     })
     .catch((err) => res.json(err))
   }

@@ -48,9 +48,6 @@ module.exports = {
     const options = {
       page: parsedPage || 1,
       limit: 12,
-      sort: {
-        'invoice date': 1
-      },
       // populate: 'patient receiving_doctor',
       populate: [
         {
@@ -62,7 +59,11 @@ module.exports = {
         {
           path: 'receiving_doctor'
         }
-      ]
+      ],
+      sort: {
+        'patient': 1
+        // 'invoice date': 1
+      }
     }
 
     TransactionModel

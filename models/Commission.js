@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const commissionObj = {
   transactionId: {
@@ -13,7 +14,8 @@ const commissionObj = {
     type: Number
   },
   commissionAmount: {
-    type: Number
+    type: Number,
+    default: 0
   },
   invoiceId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,6 +30,7 @@ const commissionObj = {
 }
 
 const commissionSchema = new mongoose.Schema(commissionObj)
+commissionSchema.plugin(mongoosePaginate)
 
 module.exports = {
   Model: mongoose.model('Commission', commissionSchema),
