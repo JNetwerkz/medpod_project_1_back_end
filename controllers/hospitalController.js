@@ -8,7 +8,8 @@ module.exports = {
     HospitalModel
     .find({
       $or: [
-          { 'name': query }
+          { 'name': query },
+          { nameAbbreviation: query }
       ]
     })
     .exec((err, results) => {

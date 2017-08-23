@@ -1,6 +1,5 @@
 const InvoiceModel = require('../models/Invoice')
 const CommissionModel = require('../models/Commission').Model
-
 const querystring = require('querystring')
 
 module.exports = {
@@ -84,11 +83,9 @@ module.exports = {
       console.log('savedInvoice', savedInvoice)
       const commsPromise = savedInvoice.transactions.map((item) => {
         const { transaction: transactionId, receivable: { amount: invoiceAmount } } = item
-        const { monthCreated: invoiceMonth, yearCreated: invoiceYear, _id: invoiceId } = savedInvoice
+        const { _id: invoiceId } = savedInvoice
         return CommissionModel.findOneAndUpdate(transactionId, {
           invoiceAmount,
-          invoiceMonth,
-          invoiceYear,
           invoiceId
         })
       })
@@ -122,6 +119,14 @@ module.exports = {
       name
     } = req.body
 
+
+    const opts = [
+      { path: 'invoicing_doctor', populate: { path: 'hospital' } },
+      { path: 'transactions.transaction', populate: { path: 'patient' } },
+      { path: 'transactions.addons.item' }
+    ]
+
+
     InvoiceModel
     .findById(id)
     .then((foundInvoice) => {
@@ -130,7 +135,10 @@ module.exports = {
       return foundInvoice.save()
     })
     .then((savedInvoice) => {
-      res.json(savedInvoice)
+      return InvoiceModel.populate(savedInvoice, opts)
+    })
+    .then((populatedInvoice) => {
+      res.json(populatedInvoice)
     })
     .catch((err) => res.json(err))
   }

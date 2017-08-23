@@ -19,7 +19,8 @@ module.exports = {
   },
 
   index: (req, res, next) => {
-    console.log(req.query)
+    console.log('comms index', req.query)
+
     const {
     search,
     page
@@ -27,8 +28,9 @@ module.exports = {
 
     let query = querystring.parse(search)
 
-    if (!query.invoiceMonth) delete query.invoiceMonth
-    if (!query.agentId) delete query.agentId
+    if (!query.transactionYear) delete query.transactionYear
+    if (!query.transactionMonth) delete query.transactionMonth
+    if (!query.referralAgentId) delete query.referralAgentId
 
     const parsedPage = parseInt(page)
 

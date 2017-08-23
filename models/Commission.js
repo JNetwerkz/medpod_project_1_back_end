@@ -21,15 +21,15 @@ const commissionObj = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Invoice'
   },
-  invoiceMonth: {
+  transactionMonth: {
     type: Number
   },
-  invoiceYear: {
+  transactionYear: {
     type: Number
   }
 }
 
-const commissionSchema = new mongoose.Schema(commissionObj)
+const commissionSchema = new mongoose.Schema(commissionObj, { timestamps: { createdAt: 'createdAt' } })
 commissionSchema.plugin(mongoosePaginate)
 
 module.exports = {

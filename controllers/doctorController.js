@@ -13,6 +13,7 @@ module.exports = {
           // search hospital here
       ]
     })
+    .populate('hospital')
     .exec((err, results) => {
       if (err) console.error(err)
       res.json(results)
@@ -30,6 +31,7 @@ module.exports = {
     const query = { $regex: search || '', $options: 'i' }
     const options = {
       page: parsedPage || 1,
+      populate: 'hospital',
       limit: 12,
       sort: {
         'last name': 1,

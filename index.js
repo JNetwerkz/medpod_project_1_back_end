@@ -27,6 +27,10 @@ const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 // const dbURI = 'mongodb://localhost:27017/Medipod_Project_1'
  const dbURI = process.env.MLAB_MONGODB_URI || 'mongodb://localhost:27017/Medipod_Project_1'
+// const promise = mongoose.createConnection(dbURI, {useMongoClient: true})
+// promise.then((db) => {
+//   console.log(db)
+// })
 mongoose.connect(dbURI, {useMongoClient: true}, (err) => {
   if (err) console.error(err)
   console.log(`connected!`)
