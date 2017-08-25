@@ -5,6 +5,7 @@ const querystring = require('querystring')
 
 module.exports = {
   searchTransaction: (req, res, next) => {
+    console.log(req.query)
     const {
       id: agentId
     } = req.params

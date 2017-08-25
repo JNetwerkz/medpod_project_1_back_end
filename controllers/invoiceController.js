@@ -22,7 +22,7 @@ module.exports = {
       page: parsedPage || 1,
       limit: 12,
       sort: {
-        createdAt: 1
+        invoiceNumber: -1
       },
       // populate: 'patient receiving_doctor',
       populate: [
