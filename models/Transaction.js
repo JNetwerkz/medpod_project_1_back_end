@@ -7,6 +7,10 @@ const transactionObj = {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Patient'
   },
+  procedureName: {
+    type: String,
+    required: [true, 'Please indicate PROCEDURE / TREATMENT name. Name will be displayed on Outgoing Invoice']
+  },
   'invoice date': {
     type: Date,
     required: [true, 'Please indicate INVOICE DATE for Transaction']
